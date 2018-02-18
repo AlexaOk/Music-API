@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+	<meta charset="utf-8">
+	<title>Liste Albums</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script type="text/javascript" src="angular.js"></script>
+</head>
+<body ng-controller="alb">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">My Music Library</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="home.html">Home</a></li>
+				<li><a href="list_artists.html">Artistes</a></li>
+				<li><a href="list_albums.html">Albums</a></li>
+			</ul>
+			<form class="navbar-form navbar-left" action="/action_page.php">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search" name="search">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</nav>
+
+	<div >
+		<p>Albums :</p>
+		<ul>
+			<li ng-repeat="x in albums">
+				<a href="http://localhost/Projet-Web_Rush_2/angular/details_album?name={{x.album}}" name="{{ x.album }}">{{ x.album }}</a>
+			</li>
+		</ul>
+
+	</div>
+
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+	<meta charset="utf-8">
+	<title>Détails d'un album</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+	<script type="text/javascript" src="angular.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+</head>
+<body ng-controller="details_alb">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">My Music Library</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="home.html">Home</a></li>
+				<li><a href="list_artists.html">Artistes</a></li>
+				<li><a href="list_albums.html">Albums</a></li>
+			</ul>
+			<form class="navbar-form navbar-left" action="/action_page.php">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Search" name="search">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+	      			<tr>
+						<th>Album</th>
+						<th>Artiste</th>
+						<th>Genre</th>
+						<th>Nombre de tracks</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="x in details_alb">
+					<td>{{ x.album }}</td>
+					<td><a href="http://localhost/Projet-Web_Rush_2/angular/details_artist?name={{x.artist}}">{{ x.artist }}</td>
+					<td>{{ x.genre }}</td>
+					<td>{{ x.Nbtracks }}</td>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="container" ng-controller="tracks_album">
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+	      			<tr>
+	      				<th>Track no</th>
+						<th>Titre</th>
+						<th>Durée</th>
+						<th>Genre</th>
+						<th>Audio</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="x in tracks_album">
+					<td>{{ x.track_no }}</td>
+					<td>{{ x.name }}</td>
+					<td>{{ x.duration }}</td>
+					<td>{{ x.genre }}</td>
+					<td>
+						<audio controls="controls"> 
+							<source src="{{ x.mp3 }}" type="audio/mp3" /> Votre navigateur n'est pas compatible
+							</audio></td>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>
