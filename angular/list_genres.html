@@ -2,12 +2,12 @@
 <html ng-app="myApp" >
 <head>
 	<meta charset="utf-8">
-	<title>Liste Albums</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+	<title>Liste des genres</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
 	<script type="text/javascript" src="angular.js"></script>
 </head>
-<body ng-controller="alb">
+<body ng-controller="list_genres">
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -51,12 +51,11 @@
 			</form>
 		</div>
 	</nav>
-
 	<div >
 		<p>Albums :</p>
 		<ul>
-			<li ng-repeat="x in albums">
-				<a href="http://localhost/Projet-Web_Rush_2/angular/details_album?name={{x.album}}" name="{{ x.album }}">{{ x.album }}</a>
+			<li ng-repeat="x in list_genre">
+				<a href="http://localhost/Projet-Web_Rush_2/angular/details_genre?name={{x.name}}" name="{{ x.name }}">{{ x.name }}</a>
 			</li>
 		</ul>
 

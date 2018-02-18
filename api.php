@@ -33,7 +33,7 @@ function get_list_albums($pdo)//lister les albums C
 {
   $sql = "SELECT albums.name AS 'album', artists.name AS 'artist', genres.name AS 'genre', COUNT(tracks.id) as 'Nbtracks'
   FROM albums JOIN artists ON albums.artist_id=artists.id JOIN genres_albums ON genres_albums.album_id=albums.id
-  JOIN genres ON genres.id=genres_albums.genre_id JOIN tracks ON tracks.album_id=albums.id GROUP BY albums.id ORDER BY albums.name"; $exe = $pdo->query($sql);
+  JOIN genres ON genres.id=genres_albums.genre_id JOIN tracks ON tracks.album_id=albums.id GROUP BY albums.id"; $exe = $pdo->query($sql);
   $Liste_albums = array();
   while($result = $exe->fetch(PDO::FETCH_OBJ))
   {
@@ -42,28 +42,42 @@ function get_list_albums($pdo)//lister les albums C
   return $Liste_albums;
 }
 
+function get_random_albums($pdo)//lister les albums C
+{
+  $sql = "SELECT albums.name AS 'album', albums.cover_small AS 'cover', artists.name AS 'artist'  FROM albums
+  JOIN artists ON albums.artist_id=artists.id ORDER BY RAND() LIMIT 8";
+  $exe = $pdo->query($sql);
+  $random = array();
+  while($result = $exe->fetch(PDO::FETCH_OBJ))
+  {
+    array_push($random, array("album" => $result->album, "artist" => $result->artist, "cover" => $result->cover));
+  }
+  return $random;
+}
+
 function get_albums_by_artist($name, $pdo)
 {
-  $sql="SELECT albums.name FROM albums JOIN artists ON albums.artist_id=artists.id WHERE artists.name LIKE '%Adam Fielding%' ORDER BY albums.name";
+  $sql="SELECT albums.name, albums.cover_small AS 'cover', artists.name AS 'artist' FROM albums JOIN artists
+  ON albums.artist_id=artists.id WHERE artists.name LIKE '%$name%' ORDER BY albums.name";
   $exe = $pdo->query($sql);
   $albums=array();
   while($result = $exe->fetch(PDO::FETCH_OBJ))
   {
-    array_push($albums, array("album" => $result->name));
+    array_push($albums, array("album" => $result->name,  "cover"=>$result->cover, "artist"=>$result->artist));
   }
   return $albums;
 }
 
 function get_albums_by_id($name, $pdo)//Voir les details d'un album + nom de l'artiste C
 {
-  $sql = "SELECT albums.name AS 'album', artists.name AS 'artist', genres.name AS 'genre', COUNT(tracks.id) as 'Nbtracks' FROM albums
+  $sql = "SELECT albums.name AS 'album',albums.cover_small AS 'cover', albums.cover AS 'coverL', artists.name AS 'artist', genres.name AS 'genre', COUNT(tracks.id) as 'Nbtracks' FROM albums
   JOIN artists ON albums.artist_id=artists.id JOIN genres_albums ON genres_albums.album_id=albums.id JOIN genres ON genres.id=genres_albums.genre_id
-  JOIN tracks ON tracks.album_id=albums.id WHERE albums.name LIKE '%$name%' ";
+  JOIN tracks ON tracks.album_id=albums.id WHERE albums.name LIKE '%$name%' GROUP BY albums.id";
   $exe = $pdo->query($sql);
   $Detail_albums=array();
   while($result = $exe->fetch(PDO::FETCH_OBJ))
   {
-    array_push($Detail_albums, array("album" => $result->album, "artist" => $result->artist, "genre" => $result->genre, "Nbtracks" => $result->Nbtracks));
+    array_push($Detail_albums, array("album" => $result->album, "artist" => $result->artist, "genre" => $result->genre, "coverL"=>$result->coverL, "Nbtracks" => $result->Nbtracks, "cover"=>$result->cover));
   }
   return $Detail_albums;
 }
@@ -75,7 +89,7 @@ function get_tracks_by_album($name, $pdo)//Voir le detail d'un track C
   JOIN albums ON tracks.album_id = albums.id
   JOIN artists ON albums.artist_id=artists.id
   JOIN genres_albums ON genres_albums.album_id=tracks.album_id
-  JOIN genres ON genres.id=genres_albums.genre_id WHERE albums.name LIKE '%$name%' GROUP BY tracks.name ORDER BY track_no";
+  JOIN genres ON genres.id=genres_albums.genre_id WHERE albums.name LIKE '%$name%'  GROUP BY tracks.track_no ORDER BY albums.name";
   $exe = $pdo->query($sql);
   $Detail_tracks=array();
   while($result = $exe->fetch(PDO::FETCH_OBJ))
@@ -105,11 +119,12 @@ function get_tracks_by_id($name, $pdo)//Voir le detail d'un track C
 
 function get_list_genres($pdo)//lister les genres
 {
-  $sql = "SELECT albums.*, genres.name AS 'Genre' FROM albums JOIN genres_albums ON albums.id = genres_albums.album_id JOIN genres ON genres_albums.genre_id = genres.id JOIN artists ON albums.artist_id = artists.id"; $exe = $pdo->query($sql);
+  $sql = "SELECT name FROM genres ORDER BY name";
+  $exe = $pdo->query($sql);
   $Liste_genres = array();
   while($result = $exe->fetch(PDO::FETCH_OBJ))
   {
-    array_push($Liste_genres, array("ID" => $result->id, "name" => $result->name));
+    array_push($Liste_genres, array("name" => $result->name));
   }
   return $Liste_genres;
 }
@@ -118,7 +133,7 @@ function get_list_genres($pdo)//lister les genres
 function get_genre_album($name, $pdo) // récupère tous les albums du même genre
 {
   $sql = "SELECT albums.*, genres.name AS 'Genre', artists.name AS 'Artiste' FROM albums JOIN genres_albums ON albums.id = genres_albums.album_id JOIN genres ON genres_albums.genre_id = genres.id
-  JOIN artists ON albums.artist_id = artists.id WHERE genres.name LIKE '%$name%'";
+  JOIN artists ON albums.artist_id = artists.id WHERE genres.name LIKE '%$name%' ORDER BY albums.name";
   $exe = $pdo->query($sql);
   $Genre_album = array();
 
@@ -131,7 +146,7 @@ function get_genre_album($name, $pdo) // récupère tous les albums du même gen
 }
 
 
-$possible_url = array("get_list_artists","get_albums_by_artist", "get_tracks_by_album", "get_artists_by_id", "get_list_albums", "get_albums_by_id", "get_tracks_by_id", "get_list_genres", "get_genre_album"); //je définis les URLs valables
+$possible_url = array("get_list_artists","get_random_albums", "get_albums_by_artist", "get_tracks_by_album", "get_artists_by_id", "get_list_albums", "get_albums_by_id", "get_tracks_by_id", "get_list_genres", "get_genre_album"); //je définis les URLs valables
 
 $value = "Une erreur est survenue"; //je mets le message d'erreur par défaut dans une variable
 
@@ -139,6 +154,7 @@ if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url)) { //si l
 
   switch ($_GET["action"])
   {
+    case "get_random_albums": $value = get_random_albums($pdo); break;
     case "get_list_artists": $value = get_list_artists($pdo); break;
     case "get_list_albums": $value = get_list_albums($pdo); break; //Je récupère la liste des articles
     case "get_list_genres": $value = get_list_genres($pdo); break;

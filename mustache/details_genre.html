@@ -53,14 +53,47 @@
       </form>
     </div>
   </nav>
-  <script id="template3" type="text/template">
+  <h1>Albums</h1>
+  <script id="template9" type="text/template">
 
-    <h1>Artists</h1>
-    {{#.}}
-    <a name ="{{name}}" href="details_artist?name={{name}}">{{name}}</a><br>
-    {{/.}}
-  </script>
-  <div id = "display3"></div>
+
+
+
+    <div class="container">
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+
+            <tr>
+              <th>Albums</th>
+              <th>Artiste</th>
+              <th>Description</th>
+              <th>Popularity</th>
+              <th>Cover</th>
+              <th>Genre</th>
+            </tr>
+          </thead>
+          {{#.}}
+          <tbody>
+            <tr>
+
+              <td><a name ="{{Name}}" href="details_album?name={{Name}}">{{Name}}</a></td>
+              <td>  <a name ="{{Artiste}}" href="details_artist?name={{Artiste}}">{{Artiste}}</a></td>
+              <td>{{Description}}</td>
+              <td>{{Popularity}}</td>
+              <td><img src="{{CoverSmall}}"></td>
+              <td><a name ="{{Genre}}" href="details_genre?name={{Genre}}">{{Genre}}</a></td>
+              {{/.}}
+            </script>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id = "display9"></div>
+
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="js/app.js"></script>
 </body>

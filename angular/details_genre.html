@@ -2,12 +2,13 @@
 <html ng-app="myApp" >
 <head>
 	<meta charset="utf-8">
-	<title>Liste Albums</title>
+	<title>Détails d'un genre</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script type="text/javascript" src="angular.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 </head>
-<body ng-controller="alb">
+<body ng-controller="details_genres">
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -52,19 +53,21 @@
 		</div>
 	</nav>
 
-	<div >
-		<p>Albums :</p>
-		<ul>
-			<li ng-repeat="x in albums">
-				<a href="http://localhost/Projet-Web_Rush_2/angular/details_album?name={{x.album}}" name="{{ x.album }}">{{ x.album }}</a>
-			</li>
-		</ul>
-
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+	      			<tr>
+						<th>Albums</th>
+					</tr>
+				</thead>
+				<tbody ng-repeat="x in detail_genre">
+					<td><a href="http://localhost/Projet-Web_Rush_2/angular/details_album?name={{x.Name}}">{{ x.Name }}</td>
+				</tbody>
+			</table>
+		</div>
 	</div>
-
-
-
-</div>
+	
 
 </body>
 </html>

@@ -18,10 +18,31 @@
 				<li class="active"><a href="home.html">Home</a></li>
 				<li><a href="list_artists.html">Artistes</a></li>
 				<li><a href="list_albums.html">Albums</a></li>
+				<li><a href="list_genres.html">Genre</a></li>
 			</ul>
-			<form class="navbar-form navbar-left" action="/action_page.php">
+			<form class="navbar-form navbar-left" action="details_artist">
 				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search" name="search">
+					<input type="text" class="form-control" placeholder="Recherche artiste" name="name">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+			<form class="navbar-form navbar-left" action="details_genre">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Recherche par genre" name="name">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
+					</div>
+				</div>
+			</form>
+			<form class="navbar-form navbar-left" action="details_album">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Recherche par album" name="name">
 					<div class="input-group-btn">
 						<button class="btn btn-default" type="submit">
 							<i class="glyphicon glyphicon-search"></i>
@@ -41,6 +62,7 @@
 						<th>Artiste</th>
 						<th>Genre</th>
 						<th>Nombre de tracks</th>
+						<th>Cover</th>
 					</tr>
 				</thead>
 				<tbody ng-repeat="x in details_alb">
@@ -48,6 +70,7 @@
 					<td><a href="http://localhost/Projet-Web_Rush_2/angular/details_artist?name={{x.artist}}">{{ x.artist }}</td>
 					<td>{{ x.genre }}</td>
 					<td>{{ x.Nbtracks }}</td>
+					<td><a href="{{ x.coverL }}"><img src="{{ x.cover }}"></a></td>
 				</tbody>
 			</table>
 		</div>
@@ -60,7 +83,9 @@
 	      				<th>Track no</th>
 						<th>Titre</th>
 						<th>Durée</th>
+						<th>Album</th>
 						<th>Genre</th>
+						<th>Artiste</th>
 						<th>Audio</th>
 					</tr>
 				</thead>
@@ -68,7 +93,9 @@
 					<td>{{ x.track_no }}</td>
 					<td>{{ x.name }}</td>
 					<td>{{ x.duration }}</td>
+					<td>{{ x.album }}</td>
 					<td>{{ x.genre }}</td>
+					<td>{{ x.artist }}</td>
 					<td>
 						<audio controls="controls"> 
 							<source src="{{ x.mp3 }}" type="audio/mp3" /> Votre navigateur n'est pas compatible
